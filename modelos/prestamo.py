@@ -1,21 +1,27 @@
+from datetime import datetime
 class Prestamo:
-    def __init__(self, idPrestamo, idUsuario, isbn, fechaPrestamo, fechaDevolucion):
+    def __init__(self, idPrestamo, idUsuario, titulo, fechaPrestamo, fechaDevolucion, estado):
         self._idPrestamo = idPrestamo
         self._idUsuario = idUsuario
-        self.isbn = isbn
+        self.titulo = titulo
         self.fechaPrestamo = fechaPrestamo
         self.fechaDevolucion = fechaDevolucion
+        self.estado = estado
 
-    def calcularDiasRetraso(self, fechaActual):
-        if self.fechaDevolucion < fechaActual:
-            dias_retraso = (fechaActual - self.fechaDevolucion).days
-            return dias_retraso
+    def finalizarPrestamo(self):
+        self.estado = "devuelto"
+        self.fechaDevolucion = datetime.now()
+#Podriamos terminar haciendo que el estado sea un boleano, en ese caso el nombre de la variable cambiaría estaPrestado, y el valor por defecto es true, una vez que se llama al metodo "finalizarPrestamo", el estado pasaría a false
+
+    def calcularDiasPrestamo(self):
+        if self.estado == "devuelto":
+            return (self.fechaDevolucion - self.fechaPrestamo).days
         else:
-            return 0
-        
-    def finalizarPrestamo(self, fechaActual):
-        dias_retraso = self.calcularDiasRetraso(fechaActual)
-        if dias_retraso > 0:
-            print(f"El préstamo tiene un retraso de {dias_retraso} días.")
-        else:
-            print("El préstamo se ha finalizado a tiempo.")
+            print("El libro aún no ha sido devuelto.")
+
+    def mostrarInfo(self):
+        print(f"""
+        Usuario: {self._idUsuario}
+        Libro: {self.titulo}
+        Estado: {self.estado}
+        """)
