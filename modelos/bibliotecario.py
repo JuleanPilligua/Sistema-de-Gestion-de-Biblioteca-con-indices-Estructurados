@@ -3,3 +3,4 @@ class Bibliotecario:
         self._idBibliotecario = idBibliotecario
         self.nombre = nombre
         self._correo = correo
+
