@@ -1,11 +1,9 @@
 class Usuario:
-    def __init__(self, idUsuario, nombre, contraseña):
-        self._idUsuario = idUsuario
+    def __init__(self, idUsuario, nombre, correo, contraseña):
+        self.idUsuario = idUsuario
         self.nombre = nombre
-        self._contraseña = contraseña
+        self.correo = correo
+        self.contraseña = contraseña
 
-    def mostrarInfo(self):
-        print(f"""
-        ID Usuario: {self._idUsuario}
-        Nombre: {self.nombre}
-        """)
+    def __str__(self):
+        return f"ID: {self.idUsuario}, Nombre: {self.nombre}"

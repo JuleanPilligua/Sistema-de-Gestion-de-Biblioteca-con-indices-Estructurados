@@ -1,18 +1,13 @@
 class Libro:
-    def __init__(self, isbn, titulo, autor, categoria, estado, vecesPrestado, colaEspera):
+    def __init__(self, isbn, titulo, autor):
         self.isbn = isbn
         self.titulo = titulo
         self.autor = autor
-        self.categoria = categoria
-        self.estado = estado
-        self.vecesPrestado = vecesPrestado
-        self.colaEspera = cola() #Esta funcion estará en una carpeta llamada estructuras, al mismo nivel que "modelos", dentro de la carpeta "estructuras", existiran archivos como pila.py, cola.py, etc, que nos permitiran crear un objeto el cual se utilizará para cada libro en este caso de cola()
+        self.estado = "Disponible"
 
-    def prestar():
-        pass
+    def __lt__(self, otro):
+        # Permite que cuando se ejecute el arbol de búsqueda binaria, se compare por ISBN y se ordene por este atributo.
+        return self.isbn < otro.isbn
 
-    def devolver():
-        pass
-
-    def mostrarInfo():
-        pass
+    def __str__(self):
+        return f"[{self.isbn}] {self.titulo} - {self.autor} ({self.estado})"
