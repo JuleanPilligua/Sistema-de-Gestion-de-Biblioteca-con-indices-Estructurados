@@ -1,1 +1,1 @@
-#Ejecución del menú principal
+#Ejecución del menú principal, debe existir un menú tanto para cliente como para bibliotecario.
