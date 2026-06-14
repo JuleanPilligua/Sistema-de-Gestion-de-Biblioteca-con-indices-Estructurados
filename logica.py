@@ -1,0 +1,1 @@
+#Aqui va la clase GestionBiblioteca, con sus respectivos métodos para registrar libro, persona, realizar prestamos, realizar devoluciones, y mostrar el catalogo de libros disponibles. 

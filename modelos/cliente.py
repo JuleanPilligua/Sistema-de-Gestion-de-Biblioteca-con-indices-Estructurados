@@ -1,4 +1,4 @@
-from modelos.usuarios.usuario import Usuario
+from modelos.usuario import Usuario
 
 class Cliente(Usuario):
     def __init__(self, idUsuario, nombre, contraseña):
