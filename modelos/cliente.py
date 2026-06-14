@@ -1,17 +1,11 @@
-from modelos.usuario import Usuario
+from .usuario import Usuario
 
 class Cliente(Usuario):
-    def __init__(self, idUsuario, nombre, contraseña):
-        super().__init__(idUsuario, nombre, contraseña)
-        self._prestamosActivos = []
+    def __init__(self, idUsuario, nombre, correo, contraseña):
+        super().__init__(idUsuario, nombre, correo, contraseña)
+        self.prestamosActivos = []
 
-    def agregarPrestamo(self, prestamo):
-        self._prestamosActivos.append(prestamo)
+    def __str__(self):
+        return f"[Cliente] ID: {self.idUsuario} | {self.nombre} (Préstamos activos: {len(self.prestamosActivos)})"
 
-    def verPrestamos(self):
-        if self._prestamosActivos:
-            print("Prestamos activos:")
-            for prestamo in self._prestamosActivos:
-                print(f"- {prestamo.titulo}")
-        else:
-            print("No tienes libros prestados.")
+#Para ver o realizar prestamos el usuario lo hará mediante la logica del archivo logica.py, donde se gestionarán las operaciones relacionadas con los clientes y sus préstamos.
