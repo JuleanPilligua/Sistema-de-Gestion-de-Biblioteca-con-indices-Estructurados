@@ -1,7 +1,7 @@
 import os
 import sys
 import webview
-from logica import GestionBiblioteca, Accion
+from logica import GestionBiblioteca, AccionEliminarLibro, AccionLog
 from main import inicializar_datos
 
 class Api:
@@ -65,6 +65,10 @@ class Api:
         # Devuelve las descripciones del historial
         return self.biblioteca.obtener_historial_operaciones(limite)
 
+    def obtener_historial_prestamos_devoluciones(self):
+        # Devuelve el historial exclusivo de prestamos y devoluciones
+        return self.biblioteca.obtener_historial_prestamos_devoluciones()
+
     def deshacer_ultima_accion(self):
         exito, msg = self.biblioteca.deshacer_ultima_accion()
         return {"success": exito, "message": msg}
@@ -90,7 +94,7 @@ class Api:
         
         exito = self.biblioteca.catalogo_libros.eliminar(isbn)
         if exito:
-            self.biblioteca.historial.apilar(Accion('eliminar_libro', f"Eliminado libro: '{libro.titulo}' ({isbn})", {'libro': libro}))
+            self.biblioteca.historial.apilar(AccionEliminarLibro(libro))
             return {"success": True, "message": f"Libro '{libro.titulo}' eliminado con éxito."}
         return {"success": False, "message": "Error al eliminar el libro."}
 
@@ -122,7 +126,7 @@ class Api:
         eliminado = self.biblioteca.personas.eliminar_por_id(id_usuario)
         if eliminado:
             role = "Bibliotecario" if hasattr(eliminado, '_codigoEmpleado') else "Cliente"
-            self.biblioteca.historial.apilar(Accion('log', f"Eliminado {role}: '{eliminado.nombre}' (ID: {id_usuario})", {}))
+            self.biblioteca.historial.apilar(AccionLog(f"Eliminado {role}: '{eliminado.nombre}' (ID: {id_usuario})"))
             return {"success": True, "message": f"Usuario '{eliminado.nombre}' ({role}) eliminado con éxito."}
         return {"success": False, "message": "Error al intentar eliminar el usuario."}
 

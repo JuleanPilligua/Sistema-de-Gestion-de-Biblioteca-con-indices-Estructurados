@@ -5,7 +5,33 @@ class Cliente(Usuario):
         super().__init__(idUsuario, nombre, correo, contraseña)
         self.prestamosActivos = []
 
-    def __str__(self):
-        return f"[Cliente] ID: {self.idUsuario} | {self.nombre} (Préstamos activos: {len(self.prestamosActivos)})"
+    def tiene_prestamo_activo(self, isbn):
+        """Verifica si el cliente ya tiene un préstamo activo del libro con el ISBN dado."""
+        return any(p.libro.isbn == isbn for p in self.prestamosActivos)
 
-#Para ver o realizar prestamos el usuario lo hará mediante la logica del archivo logica.py, donde se gestionarán las operaciones relacionadas con los clientes y sus préstamos.
+    def agregar_prestamo(self, prestamo):
+        """Asocia un préstamo activo al cliente."""
+        self.prestamosActivos.append(prestamo)
+
+    def buscar_prestamo_activo(self, isbn):
+        """Busca y retorna el préstamo activo del libro con el ISBN dado. Retorna None si no existe."""
+        for prestamo in self.prestamosActivos:
+            if prestamo.libro.isbn == isbn:
+                return prestamo
+        return None
+
+    def devolver_libro(self, isbn):
+        """
+        Registra la devolución del libro. Marca el préstamo como devuelto
+        y lo remueve de la lista de préstamos activos del cliente.
+        Retorna el préstamo devuelto o None si no tenía ese préstamo activo.
+        """
+        prestamo = self.buscar_prestamo_activo(isbn)
+        if prestamo:
+            prestamo.registrar_devolucion()
+            self.prestamosActivos.remove(prestamo)
+            return prestamo
+        return None
+
+    def __str__(self):
+        return f"[Cliente] ID: {self.idUsuario} | {self.nombre} (Préstamos activos: {len(self.prestamosActivos)})"

@@ -5,5 +5,9 @@ class Usuario:
         self.correo = correo
         self.contraseña = contraseña
 
+    def verificar_contraseña(self, contraseña):
+        """Verifica si la contraseña proporcionada coincide con la del usuario."""
+        return self.contraseña == contraseña
+
     def __str__(self):
         return f"ID: {self.idUsuario}, Nombre: {self.nombre}"
