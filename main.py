@@ -9,36 +9,20 @@ def limpiar_pantalla():
 def pausar():
     input("\nPresione Enter para continuar...")
 
-def mostrar_analisis_complejidad():
-    limpiar_pantalla()
-    print("=" * 75)
-    print("       ANÁLISIS COMPARATIVO DE COMPLEJIDAD DE LAS OPERACIONES")
-    print("=" * 75)
-    print(f"{'Estructura / Operación':<35} | {'Caso Promedio':<15} | {'Peor Caso':<15}")
-    print("-" * 75)
-    print(f"{'Árbol BST (Inserción por ISBN)':<35} | {'O(log n)':<15} | {'O(n)':<15}")
-    print(f"{'Árbol BST (Búsqueda por ISBN)':<35} | {'O(log n)':<15} | {'O(n)':<15}")
-    print(f"{'Árbol BST (Búsqueda por Título/Autor)':<35} | {'O(n)':<15} | {'O(n)':<15}")
-    print(f"{'Árbol BST (Eliminación por ISBN)':<35} | {'O(log n)':<15} | {'O(n)':<15}")
-    print(f"{'Lista Enlazada (Inserción al final)':<35} | {'O(n)':<15} | {'O(n)':<15}")
-    print(f"{'Lista Enlazada (Búsqueda/Elim. ID)':<35} | {'O(n)':<15} | {'O(n)':<15}")
-    print(f"{'Pila Historial (Apilar/Desapilar)':<35} | {'O(1)':<15} | {'O(1)':<15}")
-    print(f"{'Cola de Espera (Encolar/Desencolar)':<35} | {'O(1)':<15} | {'O(1)':<15}")
-    print("=" * 75)
-    print("Explicaciones Técnicas:")
-    print("1. Árbol Binario de Búsqueda (BST) para Libros:")
-    print("   - Indexar y buscar por ISBN es rápido O(log n) porque aprovechamos el orden del árbol.")
-    print("   - Si el árbol se desbalancea (por ejemplo, al insertar claves ordenadas), degenera en")
-    print("     una lista enlazada, por lo que el peor caso es O(n).")
-    print("   - Buscar por Título o Autor requiere recorrer todo el árbol (Inorden), lo que es O(n).")
-    print("2. Lista Enlazada para Usuarios:")
-    print("   - La inserción al final requiere recorrer la lista hasta el último nodo: O(n).")
-    print("   - La búsqueda y eliminación por ID requieren una búsqueda secuencial de O(n) pasos.")
-    print("3. Pila y Cola (Historial y Espera):")
-    print("   - Se realizan adiciones/extracciones solo en los extremos (tope o frente/final),")
-    print("     lo que no depende de la cantidad de elementos, siendo siempre O(1).")
-    print("=" * 75)
-    pausar()
+def solicitar_formulario(campos):
+    """
+    Solicita una serie de campos por consola.
+    Retorna un diccionario con los valores o None si alguno obligatorio se deja vacío.
+    """
+    datos = {}
+    for campo in campos:
+        valor = input(f"{campo}: ").strip()
+        if not valor:
+            print(f"\nError: El campo '{campo}' es obligatorio.")
+            return None
+        datos[campo] = valor
+    return datos
+
 
 def inicializar_datos(biblioteca):
     # Registrar Bibliotecario por defecto
@@ -56,8 +40,7 @@ def inicializar_datos(biblioteca):
     biblioteca.registrar_libro("9784", "Ficciones", "Jorge Luis Borges")
     
     # Vaciar el historial inicial para que las acciones de inicialización no llenen la pila del usuario
-    biblioteca.historial.tope = None
-    biblioteca.historial.tamanio = 0
+    biblioteca.historial.vaciar()
 
 def menu_cliente(biblioteca, cliente_logueado):
     while True:
@@ -110,8 +93,11 @@ def menu_cliente(biblioteca, cliente_logueado):
             limpiar_pantalla()
             print("--- SOLICITAR PRÉSTAMO ---")
             isbn = input("Ingrese el ISBN del libro que desea: ").strip()
-            exito, msg = biblioteca.realizar_prestamo(isbn, cliente_logueado.idUsuario)
-            print(f"\nResultado: {msg}")
+            if isbn:
+                exito, msg = biblioteca.realizar_prestamo(isbn, cliente_logueado.idUsuario)
+                print(f"\nResultado: {msg}")
+            else:
+                print("ISBN no puede estar vacío.")
             pausar()
             
         elif opcion == "3":
@@ -158,7 +144,8 @@ def menu_bibliotecario(biblioteca, bibliotecario_logueado):
         print("9. Mostrar todo el Catálogo Ordenado (Recorrido Inorden)")
         print("10. Eliminar un libro por ISBN")
         print("11. Mostrar todos los usuarios registrados")
-        print("12. Volver al menú principal")
+        print("12. Ver Historial de Préstamos y Devoluciones")
+        print("13. Volver al menú principal")
         print("=" * 60)
         
         opcion = input("Seleccione una opción: ").strip()
@@ -166,41 +153,39 @@ def menu_bibliotecario(biblioteca, bibliotecario_logueado):
         if opcion == "1":
             limpiar_pantalla()
             print("--- REGISTRAR NUEVO LIBRO ---")
-            isbn = input("ISBN del libro: ").strip()
-            titulo = input("Título del libro: ").strip()
-            autor = input("Autor del libro: ").strip()
-            if not isbn or not titulo or not autor:
-                print("Error: Todos los campos son obligatorios.")
-            else:
-                exito, msg = biblioteca.registrar_libro(isbn, titulo, autor)
+            datos = solicitar_formulario(["ISBN del libro", "Título del libro", "Autor del libro"])
+            if datos:
+                exito, msg = biblioteca.registrar_libro(datos["ISBN del libro"], datos["Título del libro"], datos["Autor del libro"])
                 print(f"\nResultado: {msg}")
             pausar()
             
         elif opcion == "2":
             limpiar_pantalla()
             print("--- REGISTRAR NUEVO USUARIO ---")
-            id_usuario = input("ID de Usuario: ").strip()
-            nombre = input("Nombre completo: ").strip()
-            correo = input("Correo electrónico: ").strip()
-            contraseña = input("Contraseña: ").strip()
-            print("Seleccione rol:\n1. Cliente\n2. Bibliotecario")
-            rol_op = input("Opción: ").strip()
-            
-            if rol_op == "1":
-                rol = "Cliente"
-                cod_emp = None
-            elif rol_op == "2":
-                rol = "Bibliotecario"
-                cod_emp = input("Código de Empleado: ").strip()
-            else:
-                print("Rol inválido.")
-                pausar()
-                continue
+            datos = solicitar_formulario(["ID de Usuario", "Nombre completo", "Correo electrónico", "Contraseña"])
+            if datos:
+                print("Seleccione rol:\n1. Cliente\n2. Bibliotecario")
+                rol_op = input("Opción: ").strip()
                 
-            if not id_usuario or not nombre or not correo or not contraseña:
-                print("Error: Todos los campos obligatorios deben completarse.")
-            else:
-                exito, msg = biblioteca.registrar_usuario(id_usuario, nombre, correo, contraseña, rol, cod_emp)
+                if rol_op == "1":
+                    rol = "Cliente"
+                    cod_emp = None
+                elif rol_op == "2":
+                    rol = "Bibliotecario"
+                    cod_emp = input("Código de Empleado: ").strip()
+                    if not cod_emp:
+                        print("Error: El código de empleado es obligatorio para Bibliotecarios.")
+                        pausar()
+                        continue
+                else:
+                    print("Rol inválido.")
+                    pausar()
+                    continue
+                    
+                exito, msg = biblioteca.registrar_usuario(
+                    datos["ID de Usuario"], datos["Nombre completo"], 
+                    datos["Correo electrónico"], datos["Contraseña"], rol, cod_emp
+                )
                 print(f"\nResultado: {msg}")
             pausar()
             
@@ -239,24 +224,18 @@ def menu_bibliotecario(biblioteca, bibliotecario_logueado):
         elif opcion == "4":
             limpiar_pantalla()
             print("--- REGISTRAR PRÉSTAMO ---")
-            isbn = input("ISBN del libro: ").strip()
-            id_cliente = input("ID del Cliente: ").strip()
-            if not isbn or not id_cliente:
-                print("Error: Todos los campos son obligatorios.")
-            else:
-                exito, msg = biblioteca.realizar_prestamo(isbn, id_cliente)
+            datos = solicitar_formulario(["ISBN del libro", "ID del Cliente"])
+            if datos:
+                exito, msg = biblioteca.realizar_prestamo(datos["ISBN del libro"], datos["ID del Cliente"])
                 print(f"\nResultado: {msg}")
             pausar()
             
         elif opcion == "5":
             limpiar_pantalla()
             print("--- REGISTRAR DEVOLUCIÓN ---")
-            isbn = input("ISBN del libro: ").strip()
-            id_cliente = input("ID del Cliente: ").strip()
-            if not isbn or not id_cliente:
-                print("Error: Todos los campos son obligatorios.")
-            else:
-                exito, msg = biblioteca.realizar_devolucion(isbn, id_cliente)
+            datos = solicitar_formulario(["ISBN del libro", "ID del Cliente"])
+            if datos:
+                exito, msg = biblioteca.realizar_devolucion(datos["ISBN del libro"], datos["ID del Cliente"])
                 print(f"\nResultado: {msg}")
             pausar()
             
@@ -320,14 +299,13 @@ def menu_bibliotecario(biblioteca, bibliotecario_logueado):
                 libro = biblioteca.catalogo_libros.buscar_por_isbn(isbn)
                 if not libro:
                     print("Error: El libro no existe en el catálogo.")
-                elif libro.estado == "Prestado":
+                elif not libro.esta_disponible():
                     print("Error: No se puede eliminar el libro porque está prestado actualmente.")
                 else:
                     exito = biblioteca.catalogo_libros.eliminar(isbn)
                     if exito:
-                        # Registrar en el historial
-                        from logica import Accion
-                        biblioteca.historial.apilar(Accion('eliminar_libro', f"Eliminado libro: '{libro.titulo}' ({isbn})", {'libro': libro}))
+                        from logica import AccionEliminarLibro
+                        biblioteca.historial.apilar(AccionEliminarLibro(libro))
                         print(f"Libro '{libro.titulo}' eliminado con éxito.")
                     else:
                         print("Error inesperado al intentar eliminar el libro.")
@@ -345,6 +323,17 @@ def menu_bibliotecario(biblioteca, bibliotecario_logueado):
             pausar()
             
         elif opcion == "12":
+            limpiar_pantalla()
+            print("--- HISTORIAL DE PRÉSTAMOS Y DEVOLUCIONES ---")
+            historial = biblioteca.obtener_historial_prestamos_devoluciones()
+            if not historial:
+                print("No hay préstamos ni devoluciones registrados en el historial.")
+            else:
+                for idx, desc in enumerate(historial, 1):
+                    print(f"{idx}. {desc}")
+            pausar()
+            
+        elif opcion == "13":
             break
         else:
             print("Opción inválida. Intente de nuevo.")
@@ -361,8 +350,7 @@ def main():
         print("=" * 60)
         print("1. Iniciar Sesión")
         print("2. Registrarse (Crear cuenta de Cliente)")
-        print("3. Ver Análisis de Complejidad de Estructuras")
-        print("4. Salir")
+        print("3. Salir")
         print("=" * 60)
         
         opcion = input("Seleccione una opción: ").strip()
@@ -370,41 +358,34 @@ def main():
         if opcion == "1":
             limpiar_pantalla()
             print("--- INICIAR SESIÓN ---")
-            correo = input("Correo electrónico: ").strip()
-            contraseña = input("Contraseña: ").strip()
-            
-            usuario = biblioteca.personas.buscar_por_correo(correo)
-            if usuario and usuario.contraseña == contraseña:
-                if isinstance(usuario, Bibliotecario):
-                    menu_bibliotecario(biblioteca, usuario)
-                elif isinstance(usuario, Cliente):
-                    menu_cliente(biblioteca, usuario)
+            datos = solicitar_formulario(["Correo electrónico", "Contraseña"])
+            if datos:
+                usuario = biblioteca.personas.buscar_por_correo(datos["Correo electrónico"])
+                if usuario and usuario.verificar_contraseña(datos["Contraseña"]):
+                    if isinstance(usuario, Bibliotecario):
+                        menu_bibliotecario(biblioteca, usuario)
+                    elif isinstance(usuario, Cliente):
+                        menu_cliente(biblioteca, usuario)
+                    else:
+                        print("Error de rol desconocido.")
+                        pausar()
                 else:
-                    print("Error de rol desconocido.")
+                    print("Correo o contraseña incorrectos.")
                     pausar()
-            else:
-                print("Correo o contraseña incorrectos.")
-                pausar()
                 
         elif opcion == "2":
             limpiar_pantalla()
             print("--- REGISTRO DE NUEVO CLIENTE ---")
-            id_usuario = input("Cédula / ID: ").strip()
-            nombre = input("Nombre completo: ").strip()
-            correo = input("Correo electrónico: ").strip()
-            contraseña = input("Contraseña: ").strip()
-            
-            if not id_usuario or not nombre or not correo or not contraseña:
-                print("Error: Todos los campos son obligatorios.")
-            else:
-                exito, msg = biblioteca.registrar_usuario(id_usuario, nombre, correo, contraseña, "Cliente")
+            datos = solicitar_formulario(["Cédula / ID", "Nombre completo", "Correo electrónico", "Contraseña"])
+            if datos:
+                exito, msg = biblioteca.registrar_usuario(
+                    datos["Cédula / ID"], datos["Nombre completo"], 
+                    datos["Correo electrónico"], datos["Contraseña"], "Cliente"
+                )
                 print(f"\nResultado: {msg}")
             pausar()
             
         elif opcion == "3":
-            mostrar_analisis_complejidad()
-            
-        elif opcion == "4":
             print("\n¡Gracias por utilizar el sistema de biblioteca!")
             break
         else:

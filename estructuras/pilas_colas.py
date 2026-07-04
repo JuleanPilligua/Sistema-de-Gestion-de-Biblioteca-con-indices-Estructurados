@@ -1,79 +1,66 @@
-class NodoPila:
-    def __init__(self, accion):
-        self.accion = accion
-        self.siguiente = None
-
+from collections import deque
 
 class PilaHistorial:
     def __init__(self):
-        self.tope = None
-        self.tamanio = 0
+        self._items = deque()
+
+    @property
+    def tamanio(self):
+        """Retorna el número de elementos en la pila."""
+        return len(self._items)
 
     def apilar(self, accion):
-        nuevo_nodo = NodoPila(accion)
-        nuevo_nodo.siguiente = self.tope
-        self.tope = nuevo_nodo
-        self.tamanio += 1
+        """Agrega una acción al tope de la pila."""
+        self._items.append(accion)
 
     def desapilar(self):
+        """Remueve y retorna la acción en el tope de la pila. Retorna None si está vacía."""
         if self.esta_vacia():
             return None
-        eliminado = self.tope.accion
-        self.tope = self.tope.siguiente
-        self.tamanio -= 1
-        return eliminado
+        return self._items.pop()
 
     def esta_vacia(self):
-        return self.tope is None
+        """Retorna True si la pila no tiene elementos."""
+        return len(self._items) == 0
+
+    def vaciar(self):
+        """Limpia todos los elementos del historial."""
+        self._items.clear()
 
     def obtener_historial(self, limite=10):
-        acciones = []
-        actual = self.tope
-        while actual is not None and len(acciones) < limite:
-            acciones.append(actual.accion)
-            actual = actual.siguiente
-        return acciones
-
-
-class NodoCola:
-    def __init__(self, cliente):
-        self.cliente = cliente
-        self.siguiente = None
+        """Retorna una lista con las acciones más recientes (tope primero) hasta el límite indicado."""
+        acciones = list(self._items)
+        acciones.reverse()
+        return acciones[:limite]
 
 
 class ColaEspera:
     def __init__(self):
-        self.frente = None
-        self.final = None
-        self.tamanio = 0
+        self._items = deque()
+
+    @property
+    def tamanio(self):
+        """Retorna el número de clientes en la cola."""
+        return len(self._items)
 
     def encolar(self, cliente):
-        nuevo_nodo = NodoCola(cliente)
-        if self.final is None:
-            self.frente = nuevo_nodo
-            self.final = nuevo_nodo
-        else:
-            self.final.siguiente = nuevo_nodo
-            self.final = nuevo_nodo
-        self.tamanio += 1
+        """Agrega un cliente al final de la cola."""
+        self._items.append(cliente)
 
     def desencolar(self):
+        """Remueve y retorna al cliente al frente de la cola. Retorna None si está vacía."""
         if self.esta_vacia():
             return None
-        eliminado = self.frente.cliente
-        self.frente = self.frente.siguiente
-        if self.frente is None:
-            self.final = None
-        self.tamanio -= 1
-        return eliminado
+        return self._items.popleft()
 
     def esta_vacia(self):
-        return self.frente is None
+        """Retorna True si la cola no tiene elementos."""
+        return len(self._items) == 0
+
+    def vaciar(self):
+        """Limpia todos los elementos de la cola."""
+        self._items.clear()
 
     def obtener_lista(self):
-        clientes = []
-        actual = self.frente
-        while actual is not None:
-            clientes.append(actual.cliente)
-            actual = actual.siguiente
-        return clientes
+        """Retorna una lista ordenada con todos los clientes en cola (frente primero)."""
+        return list(self._items)
