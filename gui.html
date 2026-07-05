@@ -35,13 +35,10 @@
 
     <!-- Login Container -->
     <div id="login-container" class="login-container">
-        <div class="login-card glass-panel glow-purple">
+        <div class="login-card">
             <div class="login-header">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
-                </svg>
-                <h2>Biblioteca Estructurada</h2>
-                <p>Gestión con Estructuras de Datos Reales (BST, Pilas, Colas, Listas)</p>
+                <h1 class="login-brand-title">ULEAM</h1>
+                <p class="login-brand-subtitle">Sistema de Gestión de Biblioteca</p>
             </div>
             
             <div class="login-tabs">
@@ -53,15 +50,21 @@
             <form id="login-form" onsubmit="handleLogin(event)" style="display:flex; flex-direction:column; gap:16px;">
                 <div class="form-group">
                     <label for="login-email">Correo Electrónico</label>
-                    <input type="email" id="login-email" required placeholder="correo@ejemplo.com" value="admin@biblioteca.com">
+                    <input type="email" id="login-email" required placeholder="ejemplo@uleam.edu.ec" value="admin@biblioteca.com">
                 </div>
                 <div class="form-group">
                     <label for="login-pass">Contraseña</label>
                     <input type="password" id="login-pass" required placeholder="••••••••" value="admin">
                 </div>
-                <button type="submit" class="btn" style="margin-top:10px;">Iniciar Sesión</button>
-                <div style="font-size: 0.8rem; text-align:center; color: var(--text-secondary); margin-top: 10px;">
-                    Usuarios Demo: <strong>admin@biblioteca.com (admin)</strong> o <strong>juan@correo.com (123)</strong>
+                <button type="submit" class="btn" style="margin-top:10px;">Ingresar al Portal</button>
+                
+                <div class="credentials-box" id="demo-credentials-toggle" onclick="toggleCredentials()">
+                    <span class="arrow-icon">▶</span> Credenciales Rápidas de Prueba
+                </div>
+                <div id="demo-credentials-content" class="credentials-content" style="display: none;">
+                    Usuarios Demo:<br>
+                    • <strong>admin@biblioteca.com (admin)</strong><br>
+                    • <strong>juan@correo.com (123)</strong>
                 </div>
             </form>
 
@@ -89,12 +92,15 @@
     </div>
 
     <!-- Sidebar Navigation -->
-    <nav class="sidebar glass-panel">
+    <nav class="sidebar">
         <div class="sidebar-brand">
             <svg viewBox="0 0 24 24">
                 <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
             </svg>
-            <h1>EstructuBiblioteca</h1>
+            <div class="brand-text">
+                <span class="brand-title">ULEAM</span>
+                <span class="brand-subtitle">BIBLIOTECA</span>
+            </div>
         </div>
 
         <ul class="sidebar-menu">
@@ -106,7 +112,7 @@
                 <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>
                 <span>Catálogo de Libros</span>
             </li>
-            <li id="menu-loans" class="menu-item" onclick="switchView('loans')">
+            <li id="menu-loans" class="menu-item role-client-only" onclick="switchView('loans')">
                 <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
                 <span>Mis Préstamos</span>
             </li>
@@ -116,7 +122,7 @@
             </li>
             <li id="menu-visualizer" class="menu-item" onclick="switchView('visualizer')">
                 <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-                <span>Visualizar Árbol</span>
+                <span>Catálogo Visual</span>
             </li>
             <li id="menu-loan-history" class="menu-item role-admin-only" onclick="switchView('loan-history')">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -160,19 +166,19 @@
                     </div>
                     <div class="stat-details">
                         <span id="stat-books-count" class="stat-number">0</span>
-                        <span class="stat-label">Libros en Catálogo (BST)</span>
+                        <span class="stat-label">Libros en Catálogo</span>
                     </div>
                 </div>
-                <div class="stat-card glass-panel">
+                <div class="stat-card glass-panel role-admin-only">
                     <div class="stat-icon blue">
                         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                     </div>
                     <div class="stat-details">
                         <span id="stat-users-count" class="stat-number">0</span>
-                        <span class="stat-label">Usuarios (Lista Enlazada)</span>
+                        <span class="stat-label">Usuarios</span>
                     </div>
                 </div>
-                <div class="stat-card glass-panel">
+                <div class="stat-card glass-panel role-admin-only">
                     <div class="stat-icon emerald">
                         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     </div>
@@ -187,27 +193,12 @@
                     </div>
                     <div class="stat-details">
                         <span id="stat-history-count" class="stat-number">0</span>
-                        <span class="stat-label">Acciones en Historial (Pila)</span>
+                        <span class="stat-label">Acciones en Historial</span>
                     </div>
                 </div>
             </div>
 
             <div class="dashboard-layout">
-                <!-- Recent Timeline / Stack -->
-                <div class="glass-panel" style="padding:28px; display:flex; flex-direction:column; gap:20px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="font-family:var(--font-title); font-size:1.25rem;">Historial de Operaciones Recientes</h3>
-                        <button class="btn btn-secondary role-admin-only" style="padding: 8px 16px; font-size: 0.85rem;" onclick="handleUndo()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-                            Deshacer Último (Pop)
-                        </button>
-                    </div>
-                    
-                    <div id="dash-timeline" style="display:flex; flex-direction:column; gap:12px; max-height: 380px; overflow-y: auto; padding-right: 5px;">
-                        <!-- Timelines filled here -->
-                    </div>
-                </div>
-
                 <!-- Quick actions / stats summary -->
                 <div class="glass-panel quick-actions-card">
                     <h3 style="font-family:var(--font-title); font-size:1.25rem;">Acciones Rápidas</h3>
@@ -224,27 +215,20 @@
                             Buscar un Libro
                         </button>
                     </div>
+                </div>
+
+                <!-- Recent Timeline / Stack -->
+                <div class="glass-panel" style="padding:28px; display:flex; flex-direction:column; gap:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="font-family:var(--font-title); font-size:1.25rem;">Historial de Operaciones Recientes</h3>
+                        <button class="btn btn-secondary role-admin-only" style="padding: 8px 16px; font-size: 0.85rem;" onclick="handleUndo()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+                            Deshacer Última Acción
+                        </button>
+                    </div>
                     
-                    <div style="border-top:1px solid var(--border-color); padding-top:20px; display:flex; flex-direction:column; gap:12px; margin-top:10px;">
-                        <h4 style="font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Estructuras Utilizadas:</h4>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:0.8rem;">
-                            <div class="glass-panel" style="padding:10px; background:rgba(255,255,255,0.01);">
-                                <strong style="color:var(--accent-purple);">Árbol BST</strong>
-                                <p style="color:var(--text-muted);">Para catálogo e indexación de libros por ISBN.</p>
-                            </div>
-                            <div class="glass-panel" style="padding:10px; background:rgba(255,255,255,0.01);">
-                                <strong style="color:var(--accent-blue);">Lista Enlazada</strong>
-                                <p style="color:var(--text-muted);">Para mantener los usuarios del sistema.</p>
-                            </div>
-                            <div class="glass-panel" style="padding:10px; background:rgba(255,255,255,0.01);">
-                                <strong style="color:var(--accent-emerald);">Pila LIFO</strong>
-                                <p style="color:var(--text-muted);">Para deshacer acciones en orden inverso.</p>
-                            </div>
-                            <div class="glass-panel" style="padding:10px; background:rgba(255,255,255,0.01);">
-                                <strong style="color:var(--accent-amber);">Cola FIFO</strong>
-                                <p style="color:var(--text-muted);">Para lista de espera cuando un libro está prestado.</p>
-                            </div>
-                        </div>
+                    <div id="dash-timeline" style="display:flex; flex-direction:column; gap:12px; max-height: 380px; overflow-y: auto; padding-right: 5px;">
+                        <!-- Timelines filled here -->
                     </div>
                 </div>
             </div>
@@ -304,7 +288,7 @@
         <section id="view-users" class="view-section">
             <div class="glass-panel" style="padding:28px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 style="font-family:var(--font-title); font-size:1.25rem;">Usuarios del Sistema (Lista Enlazada)</h3>
+                    <h3 style="font-family:var(--font-title); font-size:1.25rem;">Usuarios del Sistema</h3>
                     <button class="btn" onclick="showAddUserModal()">Registrar Nuevo Usuario</button>
                 </div>
                 <div class="data-table-container">
@@ -333,10 +317,10 @@
             <div class="glass-panel">
                 <div id="pane-bst" class="visualizer-canvas" style="flex-direction:column; gap:16px;">
                     <div style="text-align:center; max-width:600px;">
-                        <h4 style="font-family:var(--font-title); font-size:1.1rem; margin-bottom:6px;">Árbol Binario de Búsqueda (BST)</h4>
-                        <p style="color:var(--text-secondary); font-size:0.85rem;">Muestra la indexación de libros por ISBN. Los nodos de la izquierda tienen ISBN menor, los de la derecha ISBN mayor. Haz clic en un nodo para interactuar.</p>
+                        <h4 style="font-family:var(--font-title); font-size:1.1rem; margin-bottom:6px;">Representación Gráfica del Catálogo</h4>
+                        <p style="color:var(--text-secondary); font-size:0.85rem;">Visualización interactiva del catálogo de libros ordenados por ISBN. Haz clic en un nodo para interactuar.</p>
                     </div>
-                    <div id="bst-svg-wrapper" style="width:100%; border: 1px solid var(--border-color); border-radius:12px; background:rgba(0,0,0,0.2); overflow:auto;">
+                    <div id="bst-svg-wrapper" style="width:100%; border: 1px solid var(--border-color); border-radius:12px; background:var(--bg-secondary); overflow:auto;">
                         <!-- SVG BST rendered here -->
                     </div>
                 </div>

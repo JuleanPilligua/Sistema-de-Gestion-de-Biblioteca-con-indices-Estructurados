@@ -1,7 +1,8 @@
 import os
 import sys
 import webview
-from logica import GestionBiblioteca, AccionEliminarLibro, AccionLog
+from logica import GestionBiblioteca
+from acciones import AccionEliminarLibro, AccionLog
 from main import inicializar_datos
 
 class Api:
@@ -14,6 +15,7 @@ class Api:
         usuario = self.biblioteca.personas.buscar_por_correo(correo)
         if usuario and usuario.contraseña == contrasena:
             self.usuario_logueado = usuario
+            self.biblioteca.usuario_actual = usuario
             role = "Bibliotecario" if hasattr(usuario, '_codigoEmpleado') else "Cliente"
             emp_code = usuario._codigoEmpleado if role == "Bibliotecario" else ""
             return {
@@ -30,6 +32,7 @@ class Api:
 
     def logout(self):
         self.usuario_logueado = None
+        self.biblioteca.usuario_actual = None
         return {"success": True}
 
     def registrar_usuario(self, id_usuario, nombre, correo, contrasena, rol, cod_emp=None):
