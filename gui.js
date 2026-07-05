@@ -409,22 +409,22 @@ function renderStructureGraphic(visType) {
                 if (node.izquierdo) {
                     const nextX = x - spacingX;
                     const nextY = y + 80;
-                    svgElements.push(`<line x1="${x}" y1="${y}" x2="${nextX}" y2="${nextY}" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>`);
+                    svgElements.push(`<line x1="${x}" y1="${y}" x2="${nextX}" y2="${nextY}" stroke="var(--border-color)" stroke-width="2"/>`);
                     drawNode(node.izquierdo, nextX, nextY, spacingX * 0.48);
                 }
                 if (node.derecho) {
                     const nextX = x + spacingX;
                     const nextY = y + 80;
-                    svgElements.push(`<line x1="${x}" y1="${y}" x2="${nextX}" y2="${nextY}" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>`);
+                    svgElements.push(`<line x1="${x}" y1="${y}" x2="${nextX}" y2="${nextY}" stroke="var(--border-color)" stroke-width="2"/>`);
                     drawNode(node.derecho, nextX, nextY, spacingX * 0.48);
                 }
 
                 const fill = node.estado === "Disponible" ? "var(--accent-emerald)" : "var(--accent-amber)";
                 svgElements.push(`
                     <g class="tree-node" onclick="showBookDetail('${node.isbn}')">
-                        <circle cx="${x}" cy="${y}" r="22" fill="#15122e" stroke="${fill}" stroke-width="3" style="filter: drop-shadow(0 0 6px ${fill}33);"/>
-                        <text x="${x}" y="${y - 4}" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="bold" font-family="Outfit">${node.isbn}</text>
-                        <text x="${x}" y="${y + 8}" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Poppins">${node.titulo.substring(0, 10)}</text>
+                        <circle cx="${x}" cy="${y}" r="22" fill="var(--bg-secondary)" stroke="${fill}" stroke-width="3" style="filter: drop-shadow(0 0 6px ${fill}33);"/>
+                        <text x="${x}" y="${y - 4}" text-anchor="middle" fill="var(--text-primary)" font-size="9" font-weight="bold" font-family="Outfit">${node.isbn}</text>
+                        <text x="${x}" y="${y + 8}" text-anchor="middle" fill="var(--text-secondary)" font-size="7" font-family="Poppins">${node.titulo.substring(0, 10)}</text>
                     </g>
                 `);
             }
