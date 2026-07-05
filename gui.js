@@ -38,6 +38,20 @@ function setLoginMode(isLogin) {
     document.getElementById("register-form").style.display = !isLogin ? "flex" : "none";
 }
 
+// Toggle Credentials helper
+function toggleCredentials() {
+    const content = document.getElementById("demo-credentials-content");
+    const toggle = document.getElementById("demo-credentials-toggle");
+    const arrow = toggle.querySelector(".arrow-icon");
+    if (content.style.display === "none") {
+        content.style.display = "block";
+        arrow.textContent = "▼";
+    } else {
+        content.style.display = "none";
+        arrow.textContent = "▶";
+    }
+}
+
 // Handle Login
 function handleLogin(e) {
     e.preventDefault();
@@ -60,6 +74,16 @@ function handleLogin(e) {
                 const adminElements = document.querySelectorAll(".role-admin-only");
                 adminElements.forEach(elem => {
                     if (currentUser.role !== "Bibliotecario") {
+                        elem.style.setProperty('display', 'none', 'important');
+                    } else {
+                        elem.style.display = "";
+                    }
+                });
+
+                // Hide client options if Admin
+                const clientElements = document.querySelectorAll(".role-client-only");
+                clientElements.forEach(elem => {
+                    if (currentUser.role !== "Cliente") {
                         elem.style.setProperty('display', 'none', 'important');
                     } else {
                         elem.style.display = "";
@@ -144,10 +168,10 @@ function switchView(viewId) {
     // Update title
     const titleMap = {
         'dash': ['Dashboard', 'Resumen ejecutivo y operaciones rápidas del sistema'],
-        'catalog': ['Catálogo de Libros', 'Inventario indexado mediante Árbol Binario de Búsqueda'],
+        'catalog': ['Catálogo de Libros', 'Inventario completo de libros de la biblioteca'],
         'loans': ['Mis Préstamos', 'Seguimiento de libros prestados y fechas de vencimiento'],
-        'users': ['Usuarios Registrados', 'Listado dinámico almacenado en una Lista Enlazada simple'],
-        'visualizer': ['Visualizador del Árbol Binario', 'Representación gráfica del árbol binario de búsqueda (BST) de libros'],
+        'users': ['Usuarios Registrados', 'Listado dinámico de usuarios en el sistema'],
+        'visualizer': ['Catálogo Visual', 'Representación gráfica e interactiva del catálogo de libros'],
         'loan-history': ['Historial de Préstamos', 'Registro completo de salidas y devoluciones de libros']
     };
 
@@ -242,7 +266,7 @@ function renderCatalog(books) {
             } else {
                 footerHtml = `
                     <button class="btn btn-secondary" style="width:100%; padding: 8px;" onclick="handleClientRequestLoan('${libro.isbn}')">
-                        Encolarse en Espera
+                        Unirse a Lista de Espera
                     </button>
                 `;
             }
@@ -392,7 +416,7 @@ function renderStructureGraphic(visType) {
             const wrapper = document.getElementById("bst-svg-wrapper");
             wrapper.innerHTML = "";
             if (!root) {
-                wrapper.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted);">Árbol vacío. No hay libros registrados.</div>`;
+                wrapper.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted);">El catálogo está vacío. No hay libros registrados.</div>`;
                 return;
             }
 
@@ -473,7 +497,7 @@ function showBookDetail(isbn) {
                     let modalContent = `
                         <div style="display:flex; flex-direction:column; gap:6px;">
                             <span style="font-family:Outfit; font-size:0.8rem; color:var(--accent-purple); font-weight:600;">ISBN: ${book.isbn}</span>
-                            <h4 style="font-size:1.25rem; font-weight:700; color:white;">${book.titulo}</h4>
+                            <h4 style="font-size:1.25rem; font-weight:700; color:var(--text-primary);">${book.titulo}</h4>
                             <p style="color:var(--text-secondary); font-size:0.9rem;">Autor: ${book.autor}</p>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
@@ -481,11 +505,9 @@ function showBookDetail(isbn) {
                             <span class="book-badge ${book.estado}">${book.estado}</span>
                         </div>
                         <div class="glass-panel" style="padding:12px; background:rgba(255,255,255,0.02); font-size:0.85rem;">
-                            <strong>Cola de Espera (FIFO):</strong>
-                            ${colaCount === 0 ? '<p style="color:var(--text-muted); margin-top:4px;">No hay clientes en espera.</p>' : 
-                            `<ol style="padding-left: 20px; margin-top:6px; display:flex; flex-direction:column; gap:4px;">
-                                ${cola.map((c, i) => `<li>${c}</li>`).join("")}
-                            </ol>`}
+                            <strong>Lista de Espera:</strong>
+                            ${colaCount === 0 ? '<p style="color:var(--text-muted); margin-top:4px;">No hay personas en la lista de espera.</p>' : 
+                            `<p style="color:var(--text-secondary); margin-top:4px;">Existen ${colaCount} ${colaCount === 1 ? 'persona' : 'personas'} en la lista de espera.</p>`}
                         </div>
                     `;
 
@@ -502,13 +524,13 @@ function showBookDetail(isbn) {
                         modalContent += `
                             <div style="margin-top:10px;">
                                 <button class="btn" style="width:100%;" onclick="hideModal(); handleClientRequestLoan('${book.isbn}');">
-                                    ${isAvailable ? 'Solicitar Préstamo' : 'Encolarme en Espera'}
+                                    ${isAvailable ? 'Solicitar Préstamo' : 'Unirse a Lista de Espera'}
                                 </button>
                             </div>
                         `;
                     }
 
-                    showModal("Detalles del Libro (BST Nodo)", modalContent);
+                    showModal("Detalles del Libro", modalContent);
                 });
             }
         });
@@ -534,7 +556,7 @@ function showAddBookModal() {
             <button type="submit" class="btn" style="margin-top:10px;">Registrar Libro</button>
         </form>
     `;
-    showModal("Registrar Nuevo Libro en BST", formHtml);
+    showModal("Registrar Nuevo Libro", formHtml);
 }
 
 // Submit add book
@@ -591,7 +613,7 @@ function showAddUserModal() {
             <button type="submit" class="btn" style="margin-top:10px;">Registrar Usuario</button>
         </form>
     `;
-    showModal("Registrar Nuevo Usuario en Lista", formHtml);
+    showModal("Registrar Nuevo Usuario", formHtml);
 }
 
 // Toggle employee code input in modal
