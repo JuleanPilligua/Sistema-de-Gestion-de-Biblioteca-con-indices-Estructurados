@@ -135,6 +135,11 @@ function handleLogout() {
 
 // Navigation
 function switchView(viewId) {
+    // Prevent non-admin users from accessing visualizer
+    if (viewId === 'visualizer' && (!currentUser || currentUser.role !== "Bibliotecario")) {
+        return;
+    }
+
     // Update Active Menu
     const menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach(item => item.classList.remove("active"));
