@@ -38,20 +38,6 @@ function setLoginMode(isLogin) {
     document.getElementById("register-form").style.display = !isLogin ? "flex" : "none";
 }
 
-// Toggle Credentials helper
-function toggleCredentials() {
-    const content = document.getElementById("demo-credentials-content");
-    const toggle = document.getElementById("demo-credentials-toggle");
-    const arrow = toggle.querySelector(".arrow-icon");
-    if (content.style.display === "none") {
-        content.style.display = "block";
-        arrow.textContent = "▼";
-    } else {
-        content.style.display = "none";
-        arrow.textContent = "▶";
-    }
-}
-
 // Handle Login
 function handleLogin(e) {
     e.preventDefault();
