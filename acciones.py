@@ -1,8 +1,10 @@
+import datetime
 from estructuras import ColaEspera
 
 class Accion:
     def __init__(self, descripcion):
         self.descripcion = descripcion
+        self.timestamp = datetime.datetime.now()
 
     def deshacer(self, biblioteca):
         """Método abstracto para revertir la acción en la biblioteca."""

@@ -139,8 +139,13 @@ class GestionBiblioteca:
         return [accion.descripcion for accion in acciones]
 
     def obtener_historial_prestamos_devoluciones(self):
-        acciones = self.historial.obtener_historial(100)
-        return [accion.descripcion for accion in acciones if isinstance(accion, (AccionPrestamo, AccionDevolucion))]
+        todas_acciones = []
+        for hist in self.historiales.values():
+            for accion in hist._items:
+                if isinstance(accion, (AccionPrestamo, AccionDevolucion)):
+                    todas_acciones.append(accion)
+        todas_acciones.sort(key=lambda a: a.timestamp, reverse=True)
+        return [accion.descripcion for accion in todas_acciones[:100]]
 
     def obtener_cola_de_espera(self, isbn):
         cola = self.colas_espera.get(isbn)
