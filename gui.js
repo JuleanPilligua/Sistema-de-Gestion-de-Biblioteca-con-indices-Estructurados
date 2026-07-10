@@ -38,20 +38,6 @@ function setLoginMode(isLogin) {
     document.getElementById("register-form").style.display = !isLogin ? "flex" : "none";
 }
 
-// Toggle Credentials helper
-function toggleCredentials() {
-    const content = document.getElementById("demo-credentials-content");
-    const toggle = document.getElementById("demo-credentials-toggle");
-    const arrow = toggle.querySelector(".arrow-icon");
-    if (content.style.display === "none") {
-        content.style.display = "block";
-        arrow.textContent = "▼";
-    } else {
-        content.style.display = "none";
-        arrow.textContent = "▶";
-    }
-}
-
 // Handle Login
 function handleLogin(e) {
     e.preventDefault();
@@ -149,6 +135,11 @@ function handleLogout() {
 
 // Navigation
 function switchView(viewId) {
+    // Prevent non-admin users from accessing visualizer
+    if (viewId === 'visualizer' && (!currentUser || currentUser.role !== "Bibliotecario")) {
+        return;
+    }
+
     // Update Active Menu
     const menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach(item => item.classList.remove("active"));

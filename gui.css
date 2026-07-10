@@ -515,48 +515,6 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 4px 10px rgba(74, 50, 37, 0.2);
 }
 
-/* Credentials Box */
-.credentials-box {
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    padding: 12px;
-    color: var(--accent-coffee);
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: var(--transition-smooth);
-}
-
-.credentials-box:hover {
-    background: #e5e7eb;
-}
-
-.credentials-box .arrow-icon {
-    font-size: 0.75rem;
-    color: var(--accent-coffee);
-}
-
-.credentials-content {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    padding: 12px;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: -16px;
-    animation: slideDown 0.2s ease-out forwards;
-}
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 /* Stats Grid */
 .stats-grid {
     display: grid;
