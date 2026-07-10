@@ -1,7 +1,7 @@
 MANUAL DE USUARIO
 Sistema de Gestión de Biblioteca con Índices Estructurados
 
-Este manual contiene las instrucciones detalladas para el uso del sistema, tanto desde la interfaz de consola (CLI) como desde la interfaz gráfica de usuario (GUI).
+Este manual contiene las instrucciones detalladas para el uso del sistema a través de su interfaz gráfica web (GUI).
 
 ---
 
@@ -35,60 +35,73 @@ Al iniciar la aplicación, se cargan datos semilla automáticos para pruebas inm
 
 ---
 
-3. USO EN MODO CONSOLA (INTERFACE CLI)
+3. NAVEGACIÓN Y ACCESO EN LA INTERFAZ WEB
 
-Para navegar en la consola de comandos, el usuario debe digitar el número de la opción deseada y presionar la tecla Enter.
+El sistema ofrece una experiencia visual interactiva adaptada para su navegación en entorno web.
 
-A. Menú de Inicio
-•   Opción 1 - Iniciar Sesión: Permite ingresar el correo y la contraseña para acceder al menú correspondiente según el rol del usuario (Cliente o Bibliotecario).
-•   Opción 2 - Registrarse: Permite crear una nueva cuenta de tipo Cliente ingresando cédula/ID, nombre completo, correo y contraseña.
-•   Opción 3 - Salir: Cierra la ejecución del programa.
+A. Login y Registro
+•   Iniciar Sesión: Ingrese el correo electrónico y contraseña. El sistema redirigirá al portal del rol correspondiente (Cliente o Bibliotecario).
+•   Registrarse: Pestaña disponible para que los usuarios puedan registrarse como Clientes suministrando Cédula/ID, Nombre completo, Correo electrónico y Contraseña.
 
-B. Menú de Cliente (Menú de Consultas)
-Una vez iniciada la sesión como Cliente, el menú cuenta con las siguientes opciones:
-•   Opción 1 - Buscar un libro específico: Permite buscar en el catálogo por ISBN, por Título o por Autor de forma precisa.
-•   Opción 2 - Solicitar Préstamo de un libro: Solicita un libro ingresando su ISBN. Si el libro está disponible, el préstamo se registra de inmediato y se asigna una fecha de vencimiento (14 días después). Si no está disponible, el sistema lo agregará a la lista de espera del libro indicándole qué lugar de turno ocupa.
-•   Opción 3 - Ver mis Préstamos Activos: Muestra la lista de libros que el cliente tiene en su posesión actualmente y su fecha de vencimiento.
-•   Opción 4 - Mostrar todo el Catálogo Ordenado: Muestra todos los libros del catálogo ordenados numéricamente por su código ISBN.
-•   Opción 5 - Volver al menú principal: Cierra la sesión del cliente actual.
-
-C. Menú de Bibliotecario (Menú de Administración)
-Una vez iniciada la sesión como Bibliotecario, se cuenta con las siguientes opciones:
-•   Opción 1 - Registrar un Libro: Permite ingresar un nuevo ejemplar al catálogo solicitando ISBN, Título y Autor.
-•   Opción 2 - Registrar un Usuario: Permite registrar un Cliente o un nuevo Bibliotecario (solicitando código de empleado obligatorio).
-•   Opción 3 - Buscar un Libro: Búsqueda idéntica a la del menú del cliente.
-•   Opción 4 - Registrar Préstamo: Registra un préstamo asociando el ISBN del libro y el ID del cliente.
-•   Opción 5 - Registrar Devolución: Registra el retorno de un libro ingresando su ISBN y el ID del cliente. Si existían clientes en cola de espera para este libro, el sistema asignará el libro automáticamente al primer cliente de la fila.
-•   Opción 6 - Ver Historial de Operaciones Recientes: Muestra las últimas acciones registradas en la biblioteca.
-•   Opción 7 - Deshacer última operación: Revierte de forma inmediata la última acción de la pila del historial de operaciones (ej. si se prestó un libro por error, esta opción cancela el préstamo y devuelve el libro al catálogo).
-•   Opción 8 - Ver cola de espera de un Libro: Permite consultar quiénes y en qué orden están esperando por un libro específico mediante su ISBN.
-•   Opción 9 - Mostrar todo el Catálogo Ordenado: Listado completo de libros por ISBN.
-•   Opción 10 - Eliminar un libro por ISBN: Permite borrar un libro del catálogo (solo si no está prestado actualmente).
-•   Opción 11 - Mostrar todos los usuarios registrados: Muestra la lista de clientes y bibliotecarios registrados con sus respectivos ID y correo.
-•   Opción 12 - Ver Historial de Préstamos y Devoluciones: Muestra un registro exclusivo de las transacciones de préstamos y devoluciones realizadas.
-•   Opción 13 - Volver al menú principal: Cierra la sesión del administrador.
+B. Menú Lateral (Sidebar)
+Permite alternar entre las diferentes secciones y herramientas habilitadas según el perfil actual:
+•   Dashboard (Ambos): Contiene tarjetas estadísticas clave del sistema y el historial de acciones recientes.
+•   Catálogo de Libros (Ambos): Acceso a la búsqueda del catálogo mediante filtros.
+•   Mis Préstamos (Cliente): Sección para comprobar las fechas límite y el estado de sus préstamos.
+•   Usuarios (Bibliotecario): Permite visualizar todos los usuarios registrados, así como registrar o eliminar cuentas.
+•   Catálogo Visual (Bibliotecario): Gráfico del catálogo interactivo en forma de árbol.
+•   Historial Préstamos (Bibliotecario): Reporte histórico global de préstamos y devoluciones.
 
 ---
 
-4. USO EN INTERFAZ GRÁFICA (GUI INTERACTIVA)
+4. OPERACIONES DE ROL CLIENTE
 
-La interfaz gráfica ofrece un entorno web visualmente amigable e interactivo.
+A. Búsqueda y Préstamos (Sección Catálogo de Libros)
+•   Buscar Libros: Utilice la barra de búsqueda y el selector de criterio para filtrar libros por Título, ISBN o Autor.
+•   Solicitar Préstamos: Si la tarjeta de un libro indica estado "Disponible", haga clic en "Solicitar Préstamo". El libro se le asignará y se establecerá una fecha de vencimiento a los 14 días.
+•   Entrar a Lista de Espera: Si el libro está "Prestado", se habilita el botón "Unirse a Lista de Espera". Esto lo añadirá a la cola de espera de ese libro.
 
-A. Login y Navegación
-•   La pantalla de inicio cuenta con un panel para el ingreso de credenciales (correo y contraseña).
-•   Un menú superior dinámico se adapta según el rol detectado tras el inicio de sesión.
-•   Los formularios para registro de libros, usuarios, préstamos y devoluciones se procesan mediante diálogos y notificaciones en pantalla que confirman el éxito o error de cada transacción.
-
-B. Visualizador de Estructuras (Panel Académico)
-Esta es la sección principal para el análisis del comportamiento de las estructuras. En la interfaz gráfica verás diagramas interactivos de:
-•   Visualizador del Catálogo (Árbol Binario de Búsqueda): Dibuja el árbol completo. Cada nodo representa un libro, mostrando visualmente las bifurcaciones a la izquierda y derecha. Al insertar un libro nuevo, verás cómo se crea un nuevo nodo y se conecta automáticamente en la posición que le corresponde según el orden binario del ISBN.
-•   Visualizador de Usuarios (Lista Enlazada): Dibuja los usuarios registrados en una secuencia lineal conectados por flechas direccionales que representan los punteros.
-•   Visualizador del Historial (Pila): Muestra las acciones como bloques apilados uno sobre otro. El bloque superior es la acción más reciente. Al dar clic en "Deshacer", verás cómo el bloque del tope desaparece y el sistema actualiza el resto de paneles reflejando el cambio.
-•   Visualizador de Espera (Colas): Muestra los libros prestados que tienen clientes esperando, graficándolos en una fila india horizontal donde el primero de la fila es el siguiente en recibir el beneficio.
+B. Control de Préstamos Activos (Sección Mis Préstamos)
+•   Muestra sus préstamos en formato de lista con información detallada de ISBN, Título, Fecha de salida, Fecha límite de retorno y el Estado del préstamo.
 
 ---
 
-5. RESOLUCIÓN DE DUDAS OPERATIVAS COMUNES
+5. OPERACIONES DE ROL BIBLIOTECARIO
+
+A. Dashboard y Panel de Control
+•   Estadísticas: Monitoree en tiempo real la cantidad de libros, usuarios, préstamos activos y cantidad de acciones.
+•   Acciones Rápidas: Botones directos para abrir ventanas de registro rápido de libros y usuarios.
+•   Historial de Operaciones Recientes: Muestra de forma cronológica (pila) las acciones registradas en el sistema.
+•   Deshacer Última Acción (Undo): Ubicado al lado del historial, este botón permite revertir cronológicamente la última acción efectuada (inserciones, eliminaciones, préstamos o devoluciones).
+
+B. Gestión del Catálogo (Sección Catálogo de Libros)
+•   Insertar Libro: Utilice el botón "Nuevo Libro" para registrar un nuevo ejemplar ingresando ISBN, Título y Autor.
+•   Prestar/Devolución: El botón interactivo de la tarjeta de cada libro cambia según su estado:
+    - Prestar (Disponible): Abre un diálogo para ingresar el ID del cliente al cual se le asignará el libro.
+    - Devolución (Prestado): Registra la entrega de vuelta del libro. Si había clientes esperando en la cola del libro, el sistema asignará el libro automáticamente al primer cliente de la fila.
+•   Eliminar Libro: Botón "Eliminar" en cada tarjeta para remover ejemplares que no tengan préstamos activos.
+
+C. Gestión de Usuarios (Sección Usuarios)
+•   Visualización: Detalla en una tabla el ID, Nombre completo, Correo, Rol, Código de Empleado y número de préstamos activos de todos los usuarios.
+•   Registrar Nuevo Usuario: Formulario para añadir nuevos Clientes o Bibliotecarios (para estos últimos es obligatorio el Código de Empleado).
+•   Eliminar Usuario: Permite eliminar usuarios que no posean deudas de libros en la biblioteca.
+
+D. Catálogo Visual (Panel Académico)
+•   Visualizador del Catálogo: Dibuja un gráfico de Árbol Binario de Búsqueda (BST). Cada nodo representa un libro, estructurado en base a su código ISBN. Al insertar un libro, se puede observar cómo se crea y posiciona dinámicamente un nodo hijo (izquierdo o derecho) según las propiedades de los árboles de búsqueda binaria.
+
+---
+
+6. ESTRUCTURAS DE DATOS EMPLEADAS EN LA INTERFAZ
+
+El comportamiento visual del sistema responde directamente a estructuras de datos implementadas en el backend:
+•   Árbol Binario de Búsqueda (ABB): Estructura en la que se guarda y organiza el Catálogo de Libros, permitiendo búsquedas eficientes por ISBN y mostrándose de manera interactiva en el panel del "Catálogo Visual".
+•   Lista Enlazada Doble: Utilizada para el almacenamiento y recorrido lineal de los Usuarios en el sistema, visualizados en la sección de gestión de usuarios.
+•   Pila (Stack): Estructura que gestiona el Historial de Operaciones Recientes. Permite deshacer la última acción realizada aplicando la política LIFO (último en entrar, primero en salir).
+•   Colas de Espera (Queue): Implementadas de forma FIFO (primero en entrar, primero en salir) por cada libro para gestionar los turnos de espera si el ejemplar se encuentra agotado.
+
+---
+
+7. RESOLUCIÓN DE DUDAS OPERATIVAS COMUNES
 
 •   ¿Qué pasa si un cliente solicita un libro agotado?
     El sistema no rechazará la solicitud, sino que agregará al cliente automáticamente a la cola de espera de ese libro. Cuando otro usuario devuelva el libro, el sistema detectará la cola de espera y asignará el libro al cliente en espera sin que el bibliotecario deba realizar un préstamo manual adicional.
